@@ -1,0 +1,2214 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARCHIVE // BIRTHDAY QUEST</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --bg: #080b12;
+  --panel: #101521;
+  --panel2: #151c2b;
+  --border: #273147;
+  --text: #e8edf7;
+  --muted: #8793a9;
+  --blue: #7c9cff;
+  --cyan: #62e6e0;
+  --green: #7ee0a0;
+  --red: #ff7c91;
+  --yellow: #ffd37c;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  background:
+    radial-gradient(ellipse at 15% 10%, #172548 0%, transparent 45%),
+    radial-gradient(ellipse at 85% 90%, #162d35 0%, transparent 40%),
+    var(--bg);
+  font-family: Inter, sans-serif;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .035;
+  background-image: linear-gradient(#fff 1px, transparent 1px),
+                    linear-gradient(90deg, #fff 1px, transparent 1px);
+  background-size: 35px 35px;
+}
+
+button, input { font: inherit; }
+
+button { cursor: pointer; }
+
+button:focus-visible, input:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+.app {
+  max-width: 1280px;
+  margin: auto;
+  padding: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border: 1px solid var(--border);
+  background: rgba(16,21,33,.9);
+  border-radius: 18px;
+  padding: 17px 22px;
+  margin-bottom: 18px;
+  backdrop-filter: blur(12px);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: "Space Mono", monospace;
+  font-weight: 700;
+  letter-spacing: .5px;
+}
+
+.logo-mark {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  background: #1d2943;
+  border: 1px solid #3c4d73;
+  border-radius: 10px;
+  color: var(--cyan);
+  font-size: 20px;
+}
+
+.logo small {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 400;
+  margin-top: 4px;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--green);
+  font: 12px "Space Mono", monospace;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--green);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 245px minmax(0,1fr);
+  gap: 18px;
+}
+
+.sidebar, .main-panel, .side-panel {
+  background: rgba(16,21,33,.88);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  backdrop-filter: blur(12px);
+}
+
+.sidebar { padding: 18px; }
+
+.panel-label {
+  color: var(--muted);
+  font: 10px "Space Mono", monospace;
+  letter-spacing: 1.5px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.tree { display: flex; flex-direction: column; gap: 5px; }
+
+.tree button {
+  border: 1px solid transparent;
+  background: transparent;
+  color: #aeb9ce;
+  text-align: left;
+  padding: 11px 10px;
+  border-radius: 9px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.tree button:hover { background: #1b2539; color: white; }
+
+.tree button.active {
+  background: #1b2b4c;
+  border-color: #354b78;
+  color: var(--cyan);
+}
+
+.progress {
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+
+.progress-head {
+  display: flex;
+  justify-content: space-between;
+  font: 11px "Space Mono", monospace;
+  color: var(--muted);
+  margin-bottom: 9px;
+}
+
+.progress-head strong { color: var(--cyan); }
+
+.progress-bar {
+  height: 5px;
+  background: #252d3e;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--blue), var(--cyan));
+  transition: width .5s;
+}
+
+.hint-box {
+  margin-top: 22px;
+  border: 1px solid #34405a;
+  border-radius: 12px;
+  padding: 12px;
+  background: #141d2e;
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.hint-box strong { color: var(--yellow); }
+
+.main-panel { min-width: 0; overflow: hidden; }
+
+.pathbar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  font: 11px "Space Mono", monospace;
+}
+
+.pathbar span:last-child { color: var(--cyan); }
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.search {
+  flex: 1;
+  min-width: 0;
+  background: #0a0f19;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 10px 13px;
+  color: white;
+  font-size: 12px;
+}
+
+.search:focus { border-color: var(--blue); }
+
+.btn {
+  border: 1px solid var(--border);
+  background: #1a2335;
+  color: #b9c5db;
+  border-radius: 9px;
+  padding: 10px 14px;
+  font-size: 12px;
+  transition: .2s;
+}
+
+.btn:hover { background: #263550; color: white; }
+
+.btn.primary {
+  background: #304a86;
+  border-color: #5877c1;
+  color: white;
+}
+
+.btn.primary:hover { background: #3e5da0; }
+
+.content { padding: 25px; }
+
+.welcome {
+  padding: 10px 0 25px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 23px;
+}
+
+.eyebrow {
+  font: 11px "Space Mono", monospace;
+  color: var(--cyan);
+  letter-spacing: 2px;
+  margin-bottom: 13px;
+}
+
+h1 {
+  margin: 0 0 13px;
+  font-size: clamp(25px, 4vw, 40px);
+  letter-spacing: -1.5px;
+  line-height: 1.15;
+}
+
+.subtitle {
+  color: var(--muted);
+  max-width: 650px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.stats {
+  display: flex;
+  gap: 25px;
+  margin-top: 22px;
+  flex-wrap: wrap;
+}
+
+.stat strong {
+  display: block;
+  font: 22px "Space Mono", monospace;
+  color: white;
+}
+
+.stat span {
+  color: var(--muted);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 13px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.section-title span {
+  font: 10px "Space Mono", monospace;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.file-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(145px,1fr));
+  gap: 11px;
+}
+
+.file-card {
+  position: relative;
+  min-width: 0;
+  border: 1px solid var(--border);
+  background: #121a29;
+  border-radius: 12px;
+  padding: 17px 13px;
+  text-align: left;
+  color: white;
+  min-height: 128px;
+  transition: .2s;
+  overflow: hidden;
+}
+
+.file-card:hover {
+  transform: translateY(-2px);
+  background: #1b2940;
+  border-color: #536d9f;
+}
+
+.file-card:active { transform: translateY(0); }
+
+.file-icon {
+  font-size: 28px;
+  margin-bottom: 13px;
+  display: block;
+}
+
+.file-name {
+  font-size: 12px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+
+.photo-preview {
+  display: block;
+  max-width: 100%;
+  max-height: 400px;
+  margin: 15px auto;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+.file-meta {
+  color: var(--muted);
+  font: 10px "Space Mono", monospace;
+  margin-top: 6px;
+}
+
+.file-card .badge {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  font-size: 9px;
+  color: var(--yellow);
+}
+
+.file-card.locked { opacity: .65; }
+
+.file-card.locked:hover { opacity: 1; }
+
+.empty {
+  padding: 40px 15px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+}
+
+.notice {
+  margin-top: 18px;
+  border: 1px solid #344b70;
+  background: #111f36;
+  border-radius: 12px;
+  padding: 15px;
+  color: #a9b9d8;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.notice strong { color: var(--cyan); }
+
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: rgba(3,5,10,.82);
+  backdrop-filter: blur(8px);
+  padding: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-backdrop.show { display: flex; }
+
+.modal {
+  width: min(580px,100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 1px solid #3c4c6c;
+  border-radius: 18px;
+  background: #101827;
+  box-shadow: 0 25px 100px #0008;
+  animation: pop .25s ease;
+}
+
+@keyframes pop {
+  from { opacity: 0; transform: translateY(12px) scale(.98); }
+  to { opacity: 1; transform: none; }
+}
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-title { font-size: 14px; font-weight: 700; }
+
+.close {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 22px;
+  padding: 2px 8px;
+}
+
+.close:hover { color: white; }
+
+.modal-body { padding: 25px; }
+
+.modal-icon { font-size: 42px; margin-bottom: 18px; }
+
+.modal-body h2 {
+  font-size: 23px;
+  margin: 0 0 15px;
+  letter-spacing: -.5px;
+}
+
+.modal-body p {
+  color: #b0bdd2;
+  font-size: 13px;
+  line-height: 1.9;
+  white-space: pre-line;
+}
+
+.terminal {
+  border: 1px solid #2d4053;
+  background: #080f15;
+  border-radius: 10px;
+  padding: 17px;
+  font: 12px/2 "Space Mono", monospace;
+  color: #9fe3b5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 18px 0;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+.answer {
+  width: 100%;
+  background: #080f19;
+  border: 1px solid #34445e;
+  color: white;
+  border-radius: 9px;
+  padding: 13px;
+  font: 14px "Space Mono", monospace;
+  margin-top: 10px;
+}
+
+.answer:focus { border-color: var(--cyan); }
+
+.feedback {
+  font-size: 12px;
+  line-height: 1.7;
+  margin-top: 12px;
+  color: var(--yellow);
+}
+
+.feedback.good { color: var(--green); }
+
+.fake-cert {
+  text-align: center;
+  padding: 22px 10px;
+  border: 1px solid #5d4b70;
+  border-radius: 12px;
+  background: linear-gradient(135deg,#1c1730,#111b30);
+}
+
+.fake-cert .big { font-size: 40px; }
+
+.fake-cert h3 {
+  font: 700 20px "Space Mono", monospace;
+  color: #d3b7ff;
+  margin: 12px 0;
+}
+
+.fake-cert p { color: #b2a2c9; }
+
+.real-cert {
+  text-align: center;
+  border: 1px solid #6e6240;
+  background:
+    radial-gradient(circle at 50% 0%,#403a20,transparent 70%),
+    #171a20;
+  padding: 35px 22px;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.real-cert::before {
+  content: "✦  ✧  ✦  ✧  ✦";
+  display: block;
+  color: #e4c77e;
+  font-size: 23px;
+  letter-spacing: 8px;
+  margin-bottom: 18px;
+}
+
+.real-cert h2 {
+  font: 700 27px "Space Mono",monospace;
+  color: #f0d68e;
+  letter-spacing: 1px;
+}
+
+.real-cert h3 {
+  color: white;
+  font-size: 20px;
+  margin: 24px 0;
+}
+
+.real-cert p { color: #c8c1ad; }
+
+.real-cert .small {
+  font: 10px "Space Mono",monospace;
+  color: #958a6c;
+  margin-top: 28px;
+}
+
+.confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 30;
+  overflow: hidden;
+}
+
+.confetti span {
+  position: absolute;
+  top: -20px;
+  width: 8px;
+  height: 14px;
+  animation: fall 3s linear forwards;
+}
+
+@keyframes fall {
+  to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+.toast {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 20;
+  background: #19253a;
+  border: 1px solid #3e5275;
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 12px;
+  color: white;
+  box-shadow: 0 10px 30px #0005;
+  animation: pop .2s ease;
+  max-width: min(360px,calc(100% - 40px));
+}
+
+.toast.good { border-color: #4e916b; }
+
+.mobile-back { display: none; }
+
+@media(max-width:800px) {
+  .app { padding: 12px; }
+  .topbar { padding: 14px; }
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .sidebar.mobile-open { display: block; }
+  .mobile-back { display: inline-flex; }
+  .content { padding: 18px; }
+  .file-grid { grid-template-columns: repeat(auto-fill,minmax(125px,1fr)); }
+  .toolbar { padding: 12px; }
+  .status { display: none; }
+  h1 { font-size: 28px; }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header class="topbar">
+    <div class="logo">
+      <div class="logo-mark">⌘</div>
+      <div>
+        BIRTHDAY ARCHIVE
+        <small>CLASSIFIED // PERSONAL EDITION</small>
+      </div>
+    </div>
+    <div class="status"><span class="dot"></span> SYSTEM ONLINE</div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="panel-label">File system</div>
+      <div class="tree" id="tree"></div>
+
+      <div class="progress">
+        <div class="progress-head">
+          <span>MISSION PROGRESS</span>
+          <strong id="progressText">0%</strong>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div style="margin-top:10px;font-size:11px;color:var(--muted)">
+          <span id="foundText">0</span> / <span id="totalText">10</span> discoveries
+        </div>
+      </div>
+
+      <div class="hint-box">
+        <strong>▸ SYSTEM NOTE</strong><br>
+        Не все файлы являются тем, чем кажутся. Некоторые существуют исключительно для проверки твоего любопытства.
+      </div>
+    </aside>
+
+    <main class="main-panel">
+      <div class="pathbar">
+        <span>HOME</span><span>/</span><span id="pathCurrent">BIRTHDAY_ARCHIVE</span>
+      </div>
+
+      <div class="toolbar">
+        <button class="btn mobile-back" id="menuBtn" onclick="toggleMenu()">☰</button>
+        <input class="search" id="search" placeholder="Поиск файлов..." oninput="render()">
+        <button class="btn" onclick="goHome()">⌂ Главная</button>
+      </div>
+
+      <div class="content" id="content"></div>
+    </main>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop" onclick="backdropClose(event)">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="modalTitle">FILE VIEWER</div>
+      <button class="close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<div id="toastContainer"></div>
+<div class="confetti" id="confetti"></div>
+
+<script>
+// ==========================================
+// НАСТРОЙКИ ПОДАРКА
+// ==========================================
+
+const CONFIG = {
+  birthdayName: "",
+  senderName: "",
+  certificateTitle: "НАСТОЯЩИЙ ПОДАРОК",
+  certificateText: "Здесь будет... здесь что-то будет",
+  certificateLink: "",
+  finalCode: "739",
+  finalSafeCode: "937"
+};
+
+// ==========================================
+// ДАННЫЕ АРХИВА
+// ==========================================
+
+const archive = {
+  root: {
+    name: "С ДНЁМ РОЖДЕНИЯ",
+    icon: "🎂",
+    type: "folder",
+    desc: "Главный архив именинника",
+    items: ["readme","personal","secret","dont","archive","gifts","system","cache","drivers","drives"]
+  },
+
+  readme: {
+    name: "README — ПРОЧИТАЙ МЕНЯ",
+    icon: "📄",
+    type: "file",
+    parent: "root",
+    kind: "readme"
+  },
+
+  personal: {
+    name: "01_ЛИЧНЫЕ_ФАЙЛЫ",
+    icon: "📁",
+    type: "folder",
+    parent: "root",
+    desc: "Личные файлы и воспоминания",
+    items: ["photos","memories","nothing","personalLocked"]
+  },
+
+  photos: {
+    name: "Фотографии",
+    icon: "📁",
+    type: "folder",
+    parent: "personal",
+    desc: "Некоторые моменты стоит сохранить",
+    items: ["photo1","photo2","photoHint"]
+  },
+
+  photo1: {
+    name: "photo_01.jpg",
+    icon: "🖼️",
+    type: "file",
+    parent: "photos",
+    kind: "photo",
+    image: "photos/photo1.jpg",
+    text: ""
+  },
+
+  photo2: {
+    name: "photo_02.jpg",
+    icon: "🖼️",
+    type: "file",
+    parent: "photos",
+    kind: "photo",
+    image: "photos/photo2.jpg",
+    text: ""
+  },
+  photo3: {
+    name: "photo_03.jpg",
+    icon: "🖼️",
+    type: "file",
+    parent: "photos",
+    kind: "photo",
+    image: "photos/photo3.jpg",
+    text: "Третий момент из архива."
+  },
+
+  photoHint: {
+    name: "Важное_сообщение.txt",
+    icon: "📄",
+    type: "file",
+    parent: "photos",
+    kind: "hint",
+    text: "Первый след найден.\n\nИногда самый очевидный путь — неправильный.\n\nПроверь папку, название которой звучит слишком подозрительно."
+  },
+
+  memories: {
+    name: "Архив_воспоминаний",
+    icon: "📁",
+    type: "folder",
+    parent: "personal",
+    desc: "История важных событий",
+    items: ["memory1","memory2","memory3"]
+  },
+
+  memory1: {
+    name: "Самый_смешной_момент.txt",
+    icon: "📄",
+    type: "file",
+    parent: "memories",
+    kind: "memory",
+    text: "э у а"
+  },
+
+  memory2: {
+    name: "Самая_странная_история.txt",
+    icon: "📄",
+    type: "file",
+    parent: "memories",
+    kind: "memory",
+    text: "Файл засекречен.\n\nПричина: слишком много смешных воспоминаний."
+  },
+
+  memory3: {
+    name: "Найди_ключ.txt",
+    icon: "📄",
+    type: "file",
+    parent: "memories",
+    kind: "hint",
+    text: "Ключ находится там, где обычно ничего не находят.\n\nИщи дальше."
+  },
+
+  nothing: {
+    name: "Тут_ничего_нет",
+    icon: "📁",
+    type: "folder",
+    parent: "personal",
+    desc: "Абсолютно пустой раздел",
+    items: ["nothing2"]
+  },
+
+  nothing2: {
+    name: "Я_же_сказал_ничего_нет",
+    icon: "📁",
+    type: "folder",
+    parent: "nothing",
+    desc: "Последнее предупреждение",
+    items: ["nothing3"]
+  },
+
+  nothing3: {
+    name: "Абсолютно_ничего",
+    icon: "📄",
+    type: "file",
+    parent: "nothing2",
+    kind: "nothing"
+  },
+
+  personalLocked: {
+    name: "Личное",
+    icon: "🔒",
+    type: "file",
+    parent: "personal",
+    kind: "locked",
+    text: "Доступ запрещён.\n\nСистема не уверена, что ты готова."
+  },
+
+  secret: {
+    name: "02_СЕКРЕТНЫЙ_ОТДЕЛ",
+    icon: "📁",
+    type: "folder",
+    parent: "root",
+    desc: "Служебный раздел",
+    items: ["protocol","dossier","security","final"]
+  },
+
+  protocol: {
+    name: "Протокол_001.txt",
+    icon: "📄",
+    type: "file",
+    parent: "secret",
+    kind: "protocol"
+  },
+
+  dossier: {
+    name: "Досье",
+    icon: "📁",
+    type: "folder",
+    parent: "secret",
+    desc: "Сведения об операции",
+    items: ["agent1","agent2","agent3"]
+  },
+
+  agent1: {
+    name: "Агент_01.txt",
+    icon: "📄",
+    type: "file",
+    parent: "dossier",
+    kind: "agent",
+    text: "АГЕНТ 01\n\nСведения отсутствуют.\n\nКодовый фрагмент: 7"
+  },
+
+  agent2: {
+    name: "Агент_02.txt",
+    icon: "📄",
+    type: "file",
+    parent: "dossier",
+    kind: "agent",
+    text: "АГЕНТ 02\n\nСведения отсутствуют.\n\nКодовый фрагмент: 3"
+  },
+
+  agent3: {
+    name: "Агент_03.txt",
+    icon: "📄",
+    type: "file",
+    parent: "dossier",
+    kind: "agent",
+    text: "АГЕНТ 03\n\nСведения отсутствуют.\n\nКодовый фрагмент: 9"
+  },
+
+  security: {
+    name: "Система_безопасности",
+    icon: "🔐",
+    type: "folder",
+    parent: "secret",
+    desc: "Защищённый раздел",
+    items: ["securityFile"]
+  },
+
+  securityFile: {
+    name: "Кодовый_замок",
+    icon: "🔐",
+    type: "file",
+    parent: "security",
+    kind: "lock"
+  },
+
+  final: {
+    name: "Финальный_отдел",
+    icon: "📁",
+    type: "folder",
+    parent: "secret",
+    desc: "Финальный этап операции",
+    items: ["finalNote","finalSafe"]
+  },
+
+  finalNote: {
+    name: "Последнее_сообщение.txt",
+    icon: "📄",
+    type: "file",
+    parent: "final",
+    kind: "finalNote"
+  },
+
+  finalSafe: {
+    name: "Финальный_сейф",
+    icon: "🔒",
+    type: "file",
+    parent: "final",
+    kind: "finalSafe"
+  },
+
+  dont: {
+    name: "03_НЕ_ОТКРЫВАТЬ",
+    icon: "📁",
+    type: "folder",
+    parent: "root",
+    desc: "Предупреждение системы",
+    items: ["warning","nothing4","dontClick"]
+  },
+
+  warning: {
+    name: "Я_ПРЕДУПРЕЖДАЛ",
+    icon: "📁",
+    type: "folder",
+    parent: "dont",
+    desc: "Ты сама сюда зашла",
+    items: ["warningFile","warningDeep"]
+  },
+
+  warningFile: {
+    name: "Ну_зачем_ты_сюда_зашёл.txt",
+    icon: "📄",
+    type: "file",
+    parent: "warning",
+    kind: "warning"
+  },
+
+  warningDeep: {
+    name: "Не_заходить_дальше",
+    icon: "📁",
+    type: "folder",
+    parent: "warning",
+    desc: "Серьёзно",
+    items: ["curious"]
+  },
+
+  curious: {
+    name: "Ну_ты_и_любопытный.txt",
+    icon: "📄",
+    type: "file",
+    parent: "warningDeep",
+    kind: "curious"
+  },
+
+  nothing4: {
+    name: "Тут_точно_ничего_нет",
+    icon: "📁",
+    type: "folder",
+    parent: "dont",
+    desc: "Абсолютно точно",
+    items: ["nothing5"]
+  },
+
+  nothing5: {
+    name: "Абсолютно_ничего",
+    icon: "📁",
+    type: "folder",
+    parent: "nothing4",
+    desc: "Ну ладно",
+    items: ["nothing6"]
+  },
+
+  nothing6: {
+    name: "Последняя_папка",
+    icon: "📁",
+    type: "folder",
+    parent: "nothing5",
+    desc: "Последняя",
+    items: ["nothingFile"]
+  },
+
+  nothingFile: {
+    name: "Ничего.txt",
+    icon: "📄",
+    type: "file",
+    parent: "nothing6",
+    kind: "nothing"
+  },
+
+  fakeGift: {
+    name: "Секретный_подарок",
+    icon: "📁",
+    type: "folder",
+    parent: "dont",
+    desc: "Точно настоящий",
+    items: ["fakeCert"]
+  },
+
+  fakeCert: {
+    name: "Сертификат.pdf",
+    icon: "🎁",
+    type: "file",
+    parent: "fakeGift",
+    kind: "fakeCert"
+  },
+
+  dontClick: {
+    name: "Не_нажимай",
+    icon: "📁",
+    type: "folder",
+    parent: "dont",
+    desc: "Последнее предупреждение",
+    items: ["buttonFile"]
+  },
+
+  buttonFile: {
+    name: "Кнопка",
+    icon: "🔘",
+    type: "file",
+    parent: "dontClick",
+    kind: "dontClick"
+  },
+
+  archive: {
+    name: "04_АРХИВ",
+    icon: "📁",
+    type: "folder",
+    parent: "root",
+    desc: "Старые дела",
+    items: ["case1","case2","case3","deleted","encrypted"]
+  },
+
+  case1: {
+    name: "Дело_001",
+    icon: "📁",
+    type: "folder",
+    parent: "archive",
+    desc: "Первое дело",
+    items: ["case1file","case1clue"]
+  },
+
+  case1file: {
+    name: "Отчёт.txt",
+    icon: "📄",
+    type: "file",
+    parent: "case1",
+    kind: "case",
+    text: "ДЕЛО 001\n\nСистема обнаружила подозрительную активность.\n\nКод: 7"
+  },
+
+  case1clue: {
+    name: "Улика.png",
+    icon: "🖼️",
+    type: "file",
+    parent: "case1",
+    kind: "case",
+    text: "Улика №001.\n\nЗдесь могло быть изображение.\n\nКод: 7"
+  },
+
+  case2: {
+    name: "Дело_002",
+    icon: "📁",
+    type: "folder",
+    parent: "archive",
+    desc: "Второе дело",
+    items: ["case2file"]
+  },
+
+  case2file: {
+    name: "Отчёт.txt",
+    icon: "📄",
+    type: "file",
+    parent: "case2",
+    kind: "case",
+    text: "ДЕЛО 002\n\nСвидетель отказался от комментариев.\n\nКод: 3"
+  },
+
+  case3: {
+    name: "Дело_003",
+    icon: "📁",
+    type: "folder",
+    parent: "archive",
+    desc: "Третье дело",
+    items: ["case3file"]
+  },
+
+  case3file: {
+    name: "Отчёт.txt",
+    icon: "📄",
+    type: "file",
+    parent: "case3",
+    kind: "case",
+    text: "ДЕЛО 003\n\nМатериалы дела засекречены.\n\nКод: 9"
+  },
+
+  deleted: {
+    name: "Удалённые_файлы",
+    icon: "📁",
+    type: "folder",
+    parent: "archive",
+    desc: "Восстановление данных",
+    items: ["deleted1","deleted2","restore"]
+  },
+
+  deleted1: {
+    name: "deleted_01.txt",
+    icon: "📄",
+    type: "file",
+    parent: "deleted",
+    kind: "deleted",
+    text: "Файл удалён.\n\nНо некоторые вещи невозможно удалить."
+  },
+
+  deleted2: {
+    name: "deleted_02.txt",
+    icon: "📄",
+    type: "file",
+    parent: "deleted",
+    kind: "deleted",
+    text: "Файл удалён.\n\nПопробуй поискать что-нибудь ещё."
+  },
+
+  restore: {
+    name: "restore.txt",
+    icon: "📄",
+    type: "file",
+    parent: "deleted",
+    kind: "restore"
+  },
+
+  encrypted: {
+    name: "Зашифрованные_данные",
+    icon: "📁",
+    type: "folder",
+    parent: "archive",
+    desc: "Доступ ограничен",
+    items: ["key1","key2","key3"]
+  },
+
+  key1: {
+    name: "Ключ_01",
+    icon: "🔐",
+    type: "file",
+    parent: "encrypted",
+    kind: "key",
+    text: "Ключ 01\n\nФрагмент: 7"
+  },
+
+  key2: {
+    name: "Ключ_02",
+    icon: "🔐",
+    type: "file",
+    parent: "encrypted",
+    kind: "key",
+    text: "Ключ 02\n\nФрагмент: 3"
+  },
+
+  key3: {
+    name: "Ключ_03",
+    icon: "🔐",
+    type: "file",
+    parent: "encrypted",
+    kind: "key",
+    text: "Ключ 03\n\nФрагмент: 9"
+  },
+
+  gifts: {
+    name: "05_ПОДАРКИ",
+    icon: "📁",
+    type: "folder",
+    parent: "root",
+    desc: "Всё, что связано с подарками",
+    items: ["gift1","gift2","gift3","gift4","gift5","fakeGiftA","fakeGiftB"]
+  },
+
+  gift1: {
+    name: "Подарок_1",
+    icon: "📁",
+    type: "folder",
+    parent: "gifts",
+    desc: "Первый подарок",
+    items: ["gift1file"]
+  },
+
+  gift1file: {
+    name: "Обманка.txt",
+    icon: "🎁",
+    type: "file",
+    parent: "gift1",
+    kind: "gift1"
+  },
+
+  gift2: {
+    name: "Подарок_2",
+    icon: "📁",
+    type: "folder",
+    parent: "gifts",
+    desc: "Второй подарок",
+    items: ["gift2file"]
+  },
+
+  gift2file: {
+    name: "Сюрприз.txt",
+    icon: "📄",
+    type: "file",
+    parent: "gift2",
+    kind: "gift2"
+  },
+
+  gift3: {
+    name: "Подарок_3",
+    icon: "📁",
+    type: "folder",
+    parent: "gifts",
+    desc: "Третий подарок",
+    items: ["gift3file"]
+  },
+
+  gift3file: {
+    name: "Мем.png",
+    icon: "🖼️",
+    type: "file",
+    parent: "gift3",
+    kind: "gift3"
+  },
+
+  fakeGiftA: {
+    name: "gift_archive_01",
+    icon: "🎁",
+    type: "folder",
+    parent: "gifts",
+    desc: "Повреждённый архив",
+    items: ["fakeGiftAFile"]
+  },
+
+  fakeGiftAFile: {
+    name: "empty_package.dat",
+    icon: "📄",
+    type: "file",
+    parent: "fakeGiftA",
+    kind: "nothing"
+  },
+
+  fakeGiftB: {
+    name: "delivery_package_old",
+    icon: "🎁",
+    type: "folder",
+    parent: "gifts",
+    desc: "Старый пакет данных",
+    items: []
+  },
+
+  realGift: {
+    name: "runtime_services",
+    icon: "📁",
+    type: "folder",
+    parent: "drives",
+    desc: "Служебные системные данные",
+    items: ["vaultLayer"]
+  },
+
+  vaultLayer: {
+    name: "system_cache",
+    icon: "📁",
+    type: "folder",
+    parent: "realGift",
+    desc: "Служебный кэш",
+    items: ["vaultLayer2"]
+  },
+
+  vaultLayer2: {
+    name: "runtime_data",
+    icon: "📁",
+    type: "folder",
+    parent: "realGift",
+    desc: "Временные данные",
+    items: ["vaultLayer3"]
+  },
+
+  vaultLayer3: {
+    name: "config_backup",
+    icon: "📁",
+    type: "folder",
+    parent: "realGift",
+    desc: "Резервная конфигурация",
+    items: ["realGiftFile"]
+  },
+
+  realGiftFile: {
+    name: "volume_index.bin",
+    icon: "📦",
+    type: "file",
+    parent: "vaultLayer3",
+    kind: "realGift"
+  },
+
+  drives: {
+    name: "09_DRIVES",
+    icon: "📁",
+    type: "folder",
+    parent: "root",
+    desc: "Диски и служебные компоненты",
+    items: ["drive1","drive2","drive3","drive4","drive5","drive6","drive7","drive8","drive9","realGift"]
+  },
+
+  drive1: { name: "backup_index.db", icon: "💾", type: "file", parent: "drives", kind: "nothing" },
+  drive2: { name: "disk_health_report.txt", icon: "📄", type: "file", parent: "drives", kind: "nothing" },
+  drive3: { name: "system_telemetry.log", icon: "📄", type: "file", parent: "drives", kind: "nothing" },
+  drive4: { name: "volume_snapshot.bin", icon: "💾", type: "file", parent: "drives", kind: "nothing" },
+  drive5: { name: "compatibility_check.exe", icon: "⚙️", type: "file", parent: "drives", kind: "nothing" },
+  drive6: { name: "old_restore_config.ini", icon: "📄", type: "file", parent: "drives", kind: "nothing" },
+  drive7: { name: "temporary_storage", icon: "📁", type: "folder", parent: "drives", desc: "Временные файлы", items: ["drive7a","drive7b"] },
+  drive7a: { name: "session_2024.tmp", icon: "📄", type: "file", parent: "drive7", kind: "nothing" },
+  drive7b: { name: "cache_manifest.json", icon: "📄", type: "file", parent: "drive7", kind: "nothing" },
+  drive8: { name: "driver_package.dat", icon: "💾", type: "file", parent: "drives", kind: "nothing" },
+  drive9: { name: "read_only_volume.txt", icon: "📄", type: "file", parent: "drives", kind: "nothing" },
+
+  cache: {
+    name: "07_CACHE",
+    icon: "📁",
+    type: "folder",
+    parent: "root",
+    desc: "Кэш системы",
+    items: ["cache1","cache2"]
+  },
+
+  cache1: {
+    name: "thumbnail_cache.tmp",
+    icon: "📄",
+    type: "file",
+    parent: "cache",
+    kind: "nothing"
+  },
+
+  cache2: {
+    name: "old_session.log",
+    icon: "📄",
+    type: "file",
+    parent: "cache",
+    kind: "log"
+  },
+
+  drivers: {
+    name: "08_DRIVERS",
+    icon: "📁",
+    type: "folder",
+    parent: "root",
+    desc: "Системные драйверы",
+    items: ["driver1"]
+  },
+
+  driver1: {
+    name: "device_compatibility.txt",
+    icon: "📄",
+    type: "file",
+    parent: "drivers",
+    kind: "access"
+  },
+
+  system: {
+    name: "06_СИСТЕМНЫЕ_ФАЙЛЫ",
+    icon: "📁",
+    type: "folder",
+    parent: "root",
+    desc: "Системные файлы",
+    items: ["log","error","backup","temp","access"]
+  },
+
+  log: {
+    name: "system.log",
+    icon: "📄",
+    type: "file",
+    parent: "system",
+    kind: "log"
+  },
+
+  error: {
+    name: "error.log",
+    icon: "📄",
+    type: "file",
+    parent: "system",
+    kind: "error"
+  },
+
+  backup: {
+    name: "Backup",
+    icon: "📁",
+    type: "folder",
+    parent: "system",
+    desc: "Резервные копии",
+    items: ["backupFile"]
+  },
+
+  backupFile: {
+    name: "backup_001.txt",
+    icon: "📄",
+    type: "file",
+    parent: "backup",
+    kind: "backup"
+  },
+
+  temp: {
+    name: "Temp",
+    icon: "📁",
+    type: "folder",
+    parent: "system",
+    desc: "Временные файлы",
+    items: ["tempFile"]
+  },
+
+  tempFile: {
+    name: "temp_001.txt",
+    icon: "📄",
+    type: "file",
+    parent: "temp",
+    kind: "temp"
+  },
+
+  access: {
+    name: "Access_denied.txt",
+    icon: "🔒",
+    type: "file",
+    parent: "system",
+    kind: "access"
+  }
+};
+
+// ==========================================
+// СОСТОЯНИЕ ПРИЛОЖЕНИЯ
+// ==========================================
+
+let current = "root";
+let found = new Set();
+let unlocked = false;
+let finalUnlocked = false;
+let wrongAttempts = 0;
+let menuOpen = false;
+
+const totalDiscoveries = 10;
+
+// ==========================================
+// РЕНДЕР
+// ==========================================
+
+function render() {
+  const folder = archive[current];
+  const search = document.getElementById("search").value.toLowerCase().trim();
+
+  document.getElementById("pathCurrent").textContent = folder.name;
+  renderTree();
+
+  let items = folder.items || [];
+
+  if (search) {
+    items = Object.keys(archive).filter(id => {
+      const f = archive[id];
+      return f.name.toLowerCase().includes(search);
+    });
+  }
+
+  const content = document.getElementById("content");
+
+  if (current === "root" && !search) {
+    content.innerHTML = `
+      <section class="welcome">
+        <div class="eyebrow">/// INCOMING TRANSMISSION</div>
+        <h1>С днём рождения<br>${CONFIG.birthdayName} 🎂</h1>
+        <div class="subtitle">
+          Добро пожаловать в персональный архив.
+          Твой подарок был помещён в систему, но доступ к нему временно ограничен.
+          <br><br>
+          Исследуй папки, открывай файлы, находи подсказки.
+          Не все документы настоящие. Не все предупреждения стоит игнорировать.
+        </div>
+        <div class="stats">
+          <div class="stat"><strong>06</strong><span>Разделов</span></div>
+          <div class="stat"><strong>∞</strong><span>Секретов</span></div>
+          <div class="stat"><strong>01</strong><span>Настоящий подарок</span></div>
+        </div>
+      </section>
+    `;
+  } else {
+    content.innerHTML = `
+      <div class="welcome" style="padding-bottom:18px">
+        <div class="eyebrow">/// DIRECTORY</div>
+        <h1 style="font-size:24px">${folder.icon} ${folder.name}</h1>
+        <div class="subtitle">${folder.desc || "Содержимое раздела"}</div>
+      </div>
+    `;
+  }
+
+  const sectionTitle = document.createElement("div");
+  sectionTitle.className = "section-title";
+  sectionTitle.innerHTML = `<span style="color:var(--text);font:700 12px Inter">${search ? "Результаты поиска" : "Содержимое папки"}</span><span>${items.length} ITEMS</span>`;
+  content.appendChild(sectionTitle);
+
+  const grid = document.createElement("div");
+  grid.className = "file-grid";
+
+  if (!items.length) {
+    grid.innerHTML = `<div class="empty" style="grid-column:1/-1">Пусто.<br><br>Здесь действительно ничего нет.</div>`;
+  } else {
+    items.forEach(id => {
+      const f = archive[id];
+      const card = document.createElement("button");
+      card.className = "file-card" + (f.kind === "locked" ? " locked" : "");
+      card.onclick = () => openItem(id);
+
+      const isFound = found.has(id);
+      card.innerHTML = `
+        <span class="file-icon">${f.icon}</span>
+        <div class="file-name">${f.name}</div>
+        <div class="file-meta">${f.type === "folder" ? "FOLDER" : "FILE"}</div>
+        ${isFound ? '<span class="badge">✓ FOUND</span>' : ""}
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  content.appendChild(grid);
+
+  if (current === "root" && !search) {
+    const notice = document.createElement("div");
+    notice.className = "notice";
+    notice.innerHTML = `<strong>▸ SYSTEM MESSAGE</strong><br>
+      Архив содержит ${Object.keys(archive).length} объектов.
+      Некоторые файлы могут быть связаны между собой.
+      <br>Рекомендуется внимательно читать названия документов.`;
+    content.appendChild(notice);
+  }
+
+  updateProgress();
+}
+
+function renderTree() {
+  const tree = document.getElementById("tree");
+  tree.innerHTML = "";
+
+  const root = archive.root;
+  const rootBtn = document.createElement("button");
+  rootBtn.className = current === "root" ? "active" : "";
+  rootBtn.innerHTML = `🎂 <span>С ДНЁМ РОЖДЕНИЯ</span>`;
+  rootBtn.onclick = () => navigate("root");
+  tree.appendChild(rootBtn);
+
+  root.items.forEach(id => {
+    const f = archive[id];
+    const btn = document.createElement("button");
+    btn.className = current === id ? "active" : "";
+    btn.innerHTML = `${f.icon} <span>${f.name.replace(/^\d+_/,"")}</span>`;
+    btn.onclick = () => navigate(id);
+    tree.appendChild(btn);
+  });
+}
+
+function updateProgress() {
+  const percent = Math.round(found.size / totalDiscoveries * 100);
+  document.getElementById("progressText").textContent = percent + "%";
+  document.getElementById("progressFill").style.width = percent + "%";
+  document.getElementById("foundText").textContent = found.size;
+  document.getElementById("totalText").textContent = totalDiscoveries;
+}
+
+function navigate(id) {
+  current = id;
+  document.getElementById("search").value = "";
+  render();
+}
+
+function goHome() {
+  navigate("root");
+}
+
+function toggleMenu() {
+  menuOpen = !menuOpen;
+  document.getElementById("sidebar").classList.toggle("mobile-open", menuOpen);
+}
+
+function closeModal() {
+  document.getElementById("modalBackdrop").classList.remove("show");
+}
+
+function backdropClose(e) {
+  if (e.target.id === "modalBackdrop") closeModal();
+}
+
+function showModal(title, html) {
+  document.getElementById("modalTitle").textContent = title;
+  document.getElementById("modalBody").innerHTML = html;
+  document.getElementById("modalBackdrop").classList.add("show");
+}
+
+function markFound(id) {
+  if (!found.has(id)) {
+    found.add(id);
+    updateProgress();
+  }
+}
+
+function openItem(id) {
+  const f = archive[id];
+
+  if (f.type === "folder") {
+    navigate(id);
+    return;
+  }
+
+  markFound(id);
+  openFile(id, f);
+}
+
+// ==========================================
+// ОТКРЫТИЕ ФАЙЛОВ
+// ==========================================
+
+function openFile(id, f) {
+  let title = f.name;
+  let html = "";
+
+  switch (f.kind) {
+
+    case "readme":
+      html = `
+        <div class="modal-icon">📄</div>
+        <h2>Добро пожаловать.</h2>
+        <p>Если ты читаешь это, значит, операция началась.
+
+Твой подарок находится внутри архива.
+
+Но чтобы получить его, тебе придётся немного поработать.
+
+Внимательно изучай папки.
+Читай файлы.
+Не доверяй очевидному.
+
+Удачи, именинник.</p>
+        <div class="terminal">STATUS: MISSION STARTED
+OBJECTIVE: FIND THE REAL GIFT
+DIFFICULTY: CLASSIFIED</div>
+        <div class="modal-actions">
+          <button class="btn primary" onclick="closeModal()">Начать исследование →</button>
+        </div>
+      `;
+      break;
+
+    case "photo":
+      html = `
+        <div class="modal-icon">🖼️</div>
+        <h2>${f.name}</h2>
+        ${f.image ? `<img src="${f.image}" alt="${f.name}" class="photo-preview">` : ""}
+        <p>${f.text || ""}</p>
+        <div class="modal-actions">
+          <button class="btn" onclick="closeModal()">Закрыть</button>
+        </div>
+      `;
+      break;
+
+    case "hint":
+      html = `
+        <div class="modal-icon">🔎</div>
+        <h2>Найдена подсказка</h2>
+        <p>${f.text}</p>
+        <div class="terminal">CLUE DISCOVERED
+DATA SAVED TO ARCHIVE</div>
+      `;
+      break;
+
+    case "memory":
+      html = `
+        <div class="modal-icon">📜</div>
+        <h2>${f.name}</h2>
+        <p>${f.text}</p>
+        <div class="modal-actions">
+          <button class="btn" onclick="closeModal()">Закрыть</button>
+        </div>
+      `;
+      break;
+
+    case "nothing":
+      html = `
+        <div class="modal-icon">🕳️</div>
+        <h2>Поздравляю.</h2>
+        <p>Ты потратила время, чтобы открыть файл с названием «Ничего».
+
+И знаешь что?
+
+Тут действительно ничего нет.
+
+Но зато теперь ты знаешь, что я не врал.</p>
+        <div class="terminal">NOTHING.EXE
+RESULT: NOTHING
+STATUS: AS EXPECTED</div>
+      `;
+      break;
+
+    case "locked":
+      html = `
+        <div class="modal-icon">🔒</div>
+        <h2>Доступ запрещён</h2>
+        <p>${f.text}</p>
+        <div class="terminal">ERROR 403
+ACCESS DENIED
+REASON: INSUFFICIENT BIRTHDAY PRIVILEGES</div>
+      `;
+      break;
+
+    case "protocol":
+      html = `
+        <div class="modal-icon">📋</div>
+        <h2>Протокол операции</h2>
+        <p>Операция «День рождения» активирована.
+
+Объект: ${CONFIG.birthdayName}
+Статус: именинник
+Уровень доступа: неизвестен
+
+Для продолжения необходимо изучить досье агентов.
+
+Возможно, они оставили кодовые фрагменты.</p>
+      `;
+      break;
+
+    case "agent":
+      html = `
+        <div class="modal-icon">🕵️</div>
+        <h2>Секретное досье</h2>
+        <div class="terminal">${f.text}</div>
+        <p>Запомни кодовый фрагмент. Он может пригодиться.</p>
+      `;
+      break;
+
+    case "lock":
+      html = `
+        <div class="modal-icon">🔐</div>
+        <h2>Кодовый замок</h2>
+        <p>Для доступа к следующему уровню введи трёхзначный код.
+
+Подсказка: код спрятан в досье агентов.</p>
+        <input class="answer" id="codeInput" placeholder="Введите код..." maxlength="10" inputmode="numeric">
+        <div class="feedback" id="codeFeedback"></div>
+        <div class="modal-actions">
+          <button class="btn primary" onclick="checkCode()">Проверить код</button>
+        </div>
+      `;
+      break;
+
+    case "finalNote":
+      html = `
+        <div class="modal-icon">📜</div>
+        <h2>Последнее сообщение</h2>
+        <p>Ты почти у цели.
+
+Осталось найти финальный сейф.
+
+Но он откроется только после того, как ты докажешь, что действительно прошла эту операцию.
+
+Код должен быть у тебя.</p>
+      `;
+      break;
+
+    case "finalSafe":
+      html = `
+        <div class="modal-icon">🔒</div>
+        <h2>Финальный сейф</h2>
+        <p>Введи код, который ты нашла в архиве.
+
+Если ты дошла сюда честно, у тебя уже есть всё необходимое.</p>
+        <input class="answer" id="finalInput" placeholder="Код..." maxlength="10" inputmode="numeric">
+        <div class="feedback" id="finalFeedback"></div>
+        <div class="modal-actions">
+          <button class="btn primary" onclick="checkFinal()">Открыть сейф</button>
+        </div>
+      `;
+      break;
+
+    case "warning":
+      html = `
+        <div class="modal-icon">⚠️</div>
+        <h2>Я ПРЕДУПРЕЖДАЛ</h2>
+        <p>Ты сама сюда зашла.
+
+Система не несёт ответственности за последствия твоего любопытства.
+
+Но раз уж ты здесь — можешь продолжить.</p>
+      `;
+      break;
+
+    case "curious":
+      html = `
+        <div class="modal-icon">👀</div>
+        <h2>Ну ты и любопытная.</h2>
+        <p>Тебе прямо сказали не заходить дальше.
+
+Но ладно.
+
+За настойчивость — маленькая подсказка:
+
+Настоящий подарок не обязательно находится там, где написано «подарок».</p>
+      `;
+      break;
+
+    case "fakeCert":
+      html = `
+        <div class="fake-cert">
+          <div class="big">🎁</div>
+          <h3>СЕРТИФИКАТ</h3>
+          <p>Настоящим подтверждается, что именинник получает...</p>
+          <h3 style="font-size:16px">ОДИН ВИРТУАЛЬНЫЙ ПОКЛОН</h3>
+          <p>Стоимость: 0 ₽</p>
+          <p>Срок действия: навсегда</p>
+          <p style="font-size:11px">Поздравляем. Ты нашла не то.</p>
+        </div>
+      `;
+      break;
+
+    case "dontClick":
+      html = `
+        <div class="modal-icon">🔘</div>
+        <h2>НЕ НАЖИМАТЬ</h2>
+        <p>Последнее предупреждение.
+
+Нажми кнопку, если готова принять последствия.</p>
+        <div class="modal-actions">
+          <button class="btn primary" onclick="pressDanger()">Нажать</button>
+        </div>
+      `;
+      break;
+
+    case "case":
+      html = `
+        <div class="modal-icon">📁</div>
+        <h2>${f.name}</h2>
+        <div class="terminal">${f.text}</div>
+        <p>Материалы дела сохранены в архиве.</p>
+      `;
+      break;
+
+    case "deleted":
+      html = `
+        <div class="modal-icon">🗑️</div>
+        <h2>Удалённый файл</h2>
+        <p>${f.text}</p>
+      `;
+      break;
+
+    case "restore":
+      html = `
+        <div class="modal-icon">♻️</div>
+        <h2>Восстановление</h2>
+        <p>Файл успешно восстановлен.
+
+Но он оказался пустым.
+
+Попробуй поискать в другом месте.</p>
+        <div class="terminal">RESTORE COMPLETE
+DATA: 0 BYTES
+RESULT: NOTHING TO RESTORE</div>
+      `;
+      break;
+
+    case "key":
+      html = `
+        <div class="modal-icon">🔑</div>
+        <h2>Ключ найден</h2>
+        <div class="terminal">${f.text}</div>
+        <p>Сохрани этот фрагмент. Он пригодится для открытия сейфа.</p>
+      `;
+      break;
+
+    case "gift1":
+      html = `
+        <div class="modal-icon">🎁</div>
+        <h2>Подарок №1</h2>
+        <p>Поздравляю!
+
+Ты открыла первый подарок.
+
+Это была папка.
+
+Но зато красивая.</p>
+      `;
+      break;
+
+    case "gift2":
+      html = `
+        <div class="modal-icon">🎁</div>
+        <h2>Сюрприз!</h2>
+        <p>Ты думала, что здесь подарок?
+
+Нет.
+
+Но ты всё равно молодец.</p>
+      `;
+      break;
+
+    case "gift3":
+      html = `
+        <div class="modal-icon">🖼️</div>
+        <h2>Мем дня</h2>
+        <p>Когда потратила час на поиск подарка, а нашла только этот файл.</p>
+        <div class="terminal">YOU ARE DOING GREAT
+KEEP GOING</div>
+      `;
+      break;
+
+    case "realGift":
+      html = `
+        <div class="modal-icon">📦</div>
+        <h2>Системный файл</h2>
+        <p>Ты нашла нужную папку.
+
+Но система всё ещё требует подтверждение.
+
+Открой финальный сейф в секретном отделе.
+
+Подсказка: код для сейфа — это тот же код, введённый в обратном порядке.</p>
+      `;
+      break;
+
+    case "log":
+      html = `
+        <div class="modal-icon">📄</div>
+        <h2>system.log</h2>
+        <div class="terminal">[SYSTEM] Boot sequence complete
+[ARCHIVE] Birthday mode activated
+[USER] Curiosity level: HIGH
+[SECURITY] No suspicious activity detected
+[STATUS] Everything is fine.</div>
+      `;
+      break;
+
+    case "error":
+      html = `
+        <div class="modal-icon">⚠️</div>
+        <h2>error.log</h2>
+        <div class="terminal">ERROR 001: Gift not found
+ERROR 002: Too much curiosity
+ERROR 003: Birthday detected
+ERROR 004: System cannot handle this much awesomeness</div>
+      `;
+      break;
+
+    case "backup":
+      html = `
+        <div class="modal-icon">💾</div>
+        <h2>Backup</h2>
+        <p>Резервная копия подарка создана.
+
+Но резервная копия тоже требует код.
+
+Система не может облегчить тебе жизнь.</p>
+      `;
+      break;
+
+    case "temp":
+      html = `
+        <div class="modal-icon">🗂️</div>
+        <h2>Temp</h2>
+        <p>Временные файлы.
+
+Временный подарок.
+
+Временное разочарование.
+
+Всё временно.</p>
+      `;
+      break;
+
+    case "access":
+      html = `
+        <div class="modal-icon">🔒</div>
+        <h2>Access denied</h2>
+        <p>У тебя нет доступа к этому файлу.
+
+И, честно говоря, у нас тоже.</p>
+      `;
+      break;
+
+    default:
+      html = `
+        <div class="modal-icon">📄</div>
+        <h2>${f.name}</h2>
+        <p>${f.text || "Содержимое файла пока отсутствует."}</p>
+      `;
+  }
+
+  showModal(title, html);
+}
+
+// ==========================================
+// КОДОВЫЕ ЗАМКИ
+// ==========================================
+
+function checkCode() {
+  const input = document.getElementById("codeInput");
+  const feedback = document.getElementById("codeFeedback");
+
+  if (!input || !feedback) return;
+
+  if (input.value.trim() === CONFIG.finalCode) {
+    unlocked = true;
+    feedback.className = "feedback good";
+    feedback.textContent = "✓ Код принят. Доступ разрешён.";
+    markFound("securityFile");
+    toast("Система безопасности отключена.", true);
+
+    setTimeout(() => {
+      closeModal();
+      navigate("final");
+    }, 1000);
+  } else {
+    wrongAttempts++;
+    feedback.className = "feedback";
+    feedback.textContent = wrongAttempts >= 3
+      ? "Неверный код. Подсказка: ищи числа в досье агентов."
+      : "Неверный код. Попробуй ещё раз.";
+  }
+}
+
+function checkFinal() {
+  const input = document.getElementById("finalInput");
+  const feedback = document.getElementById("finalFeedback");
+
+  if (!input || !feedback) return;
+
+  if (input.value.trim() === CONFIG.finalSafeCode) {
+    finalUnlocked = true;
+    feedback.className = "feedback good";
+    feedback.textContent = "✓ СЕЙФ ОТКРЫТ. ПОДАРОК НАЙДЕН.";
+    markFound("finalSafe");
+    toast("Операция завершена!", true);
+
+    setTimeout(() => {
+      closeModal();
+      showCertificate();
+    }, 900);
+  } else {
+    feedback.className = "feedback";
+    feedback.textContent = "Код неверный. Проверь найденные подсказки.";
+  }
+}
+
+function pressDanger() {
+  closeModal();
+
+  document.body.style.filter = "hue-rotate(100deg)";
+  toast("Система обнаружила любопытство.", false);
+
+  setTimeout(() => {
+    document.body.style.filter = "";
+    showModal("SYSTEM ALERT", `
+      <div class="modal-icon">🚨</div>
+      <h2>Ты нажала.</h2>
+      <p>И ничего не произошло.
+
+Потому что это просто сайт.
+
+Но теперь ты знаешь, что любопытство — опасная вещь.</p>
+      <div class="terminal">DANGER BUTTON PRESSED
+NO ACTUAL DANGER DETECTED
+CONGRATULATIONS</div>
+    `);
+  }, 500);
+}
+
+// ==========================================
+// ФИНАЛ
+// ==========================================
+
+function showCertificate() {
+  showModal("FINAL GIFT // ACCESS GRANTED", `
+    <div class="real-cert">
+      <h2>СЕРТИФИКАТ</h2>
+      <p>Настоящим подтверждается, что</p>
+      <h3>${CONFIG.birthdayName}</h3>
+      <p>успешно прошла секретную операцию<br>и получил настоящий подарок.</p>
+      <h3 style="font-size:18px">${CONFIG.certificateTitle}</h3>
+      <p>${CONFIG.certificateText}</p>
+      <p style="margin-top:25px">С любовью и уважением,<br>${CONFIG.senderName}</p>
+      <div class="small">ARCHIVE SYSTEM // MISSION COMPLETE</div>
+    </div>
+    ${CONFIG.certificateLink ? `
+      <div class="modal-actions">
+        <button class="btn primary" onclick="window.open(CONFIG.certificateLink,'_blank')">Открыть настоящий сертификат →</button>
+      </div>
+    ` : ""}
+  `);
+
+  launchConfetti();
+
+  // Автоматически скачиваем настоящий PDF после открытия сейфа.
+  setTimeout(() => {
+    const link = document.createElement("a");
+    link.href = "certificate.pdf";
+    link.download = "Настоящий_сертификат.pdf";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }, 400);
+}
+
+function launchConfetti() {
+  const container = document.getElementById("confetti");
+  container.innerHTML = "";
+
+  const colors = ["#7c9cff","#62e6e0","#7ee0a0","#ffd37c","#ff7c91"];
+
+  for (let i = 0; i < 80; i++) {
+    const piece = document.createElement("span");
+    piece.style.left = Math.random() * 100 + "%";
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.animationDelay = Math.random() * 1.5 + "s";
+    piece.style.transform = `rotate(${Math.random()*360}deg)`;
+    container.appendChild(piece);
+  }
+
+  setTimeout(() => container.innerHTML = "", 4500);
+}
+
+// ==========================================
+// УВЕДОМЛЕНИЯ
+// ==========================================
+
+function toast(message, good = false) {
+  const container = document.getElementById("toastContainer");
+  const el = document.createElement("div");
+  el.className = "toast" + (good ? " good" : "");
+  el.textContent = message;
+  container.appendChild(el);
+
+  setTimeout(() => el.remove(), 3500);
+}
+
+// ==========================================
+// ЗАПУСК
+// ==========================================
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closeModal();
+});
+
+render();
+</script>
+</body>
+</html>
